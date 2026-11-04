@@ -30,24 +30,26 @@ resource "aws_key_pair" "main" {
 }
 
 module "web" {
-  source = "git::https://github.com/mazighekh/terraform-aws-ec2-server.git?ref=v1.0.0"
+  source = "git::https://github.com/mazighekh/terraform-aws-ec2-server.git?ref=v1.1.0"
 
-  name          = "${var.environment}-web"
-  ami_id        = data.aws_ami.debian.id
-  instance_type = var.instance_type
-  key_name      = aws_key_pair.main.key_name
-  admin_cidr    = local.my_cidr
-  open_ports    = [80]
+  name                   = "${var.environment}-web"
+  ami_id                 = data.aws_ami.debian.id
+  instance_type          = var.instance_type
+  key_name               = aws_key_pair.main.key_name
+  admin_cidr             = local.my_cidr
+  enable_monitoring_port = true
+  open_ports             = [80]
 }
 
 module "monitoring" {
-  source = "git::https://github.com/mazighekh/terraform-aws-ec2-server.git?ref=v1.0.0"
+  source = "git::https://github.com/mazighekh/terraform-aws-ec2-server.git?ref=v1.1.0"
 
-  name          = "${var.environment}-monitoring"
-  ami_id        = data.aws_ami.debian.id
-  instance_type = var.instance_type
-  key_name      = aws_key_pair.main.key_name
-  admin_cidr    = local.my_cidr
+  name                   = "${var.environment}-monitoring"
+  ami_id                 = data.aws_ami.debian.id
+  instance_type          = var.instance_type
+  key_name               = aws_key_pair.main.key_name
+  admin_cidr             = local.my_cidr
+  enable_monitoring_port = true
 }
 
 # Un inventaire Ansible par environnement
