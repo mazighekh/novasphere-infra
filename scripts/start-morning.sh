@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Redemarre l'instance web et regenere l'inventaire (l'IP publique change au redemarrage).
 set -euo pipefail
-cd "$(dirname "$0")/../terraform"
+cd "$(dirname "$0")/../envs/${1:-dev}"
 ID=$(terraform output -raw web_instance_id)
 aws ec2 start-instances --instance-ids "$ID" > /dev/null
 aws ec2 wait instance-running --instance-ids "$ID"
